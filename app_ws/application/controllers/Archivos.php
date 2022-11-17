@@ -67,6 +67,13 @@ class Archivos extends REST_Controller
         $this->response($respuesta, $respuesta['status']);
     }
 
+    public function editarobra_put()
+    {
+        $this->load->model('archivos_model');
+        $respuesta = $this->archivos_model->editarObra($this->put());
+        $status = $respuesta['status'];
+        $this->response($respuesta, $status);
+    }
     // Obtener el paginador
     public function registrospag_post()
     {
@@ -89,26 +96,40 @@ class Archivos extends REST_Controller
     }
 
 
-    public function registroimg_get()
+    public function getobras_get()
     {
         $this->load->model('archivos_model');
-        $respuesta = $this->archivos_model->consultar($this->get());
+        $respuesta = $this->archivos_model->getObras($this->get());
         $this->response($respuesta, $respuesta['status']);
     }
 
-    // Obtener el paginador
-    // public function cargospag_post()
-    // {
-    //     $this->load->model('cargos_model');
-    //     $respuesta = $this->cargos_model->paginado($this->post());
-    //     $this->response($respuesta["respuesta"], $respuesta["status"]);
-    // }
+    public function agregar_ad_post()
+    {
+        $this->load->model('archivos_model');
+        $data = (array) json_decode($this->post('data'));
+        $respuesta = $this->archivos_model->agregarAdquisicion($data, $this->post());
+        $this->response($respuesta, $respuesta['status']);
+    }
 
-    //  public function cambiar_estado_put($idCargo = 0)
-    //  {
-    //     $respuesta = $this->cargos_model->cambiarEstado($idCargo);
+    public function editarad_put()
+    {
+        $this->load->model('archivos_model');
+        $respuesta = $this->archivos_model->editarAdquisicion($this->put());
+        $status = $respuesta['status'];
+        $this->response($respuesta, $status);
+    }
+    public function getadquisicion_get()
+    {
+        $this->load->model('archivos_model');
+        $respuesta = $this->archivos_model->getAdquisicion($this->get());
+        $this->response($respuesta, $respuesta['status']);
+    }
 
-    //     $this->response($respuesta["respuesta"], $respuesta['status']);
-    //  }
+    public function eliminar_ad_post()
+    {
+        $this->load->model('archivos_model');
+        $respuesta = $this->archivos_model->eliminar_ad($this->post());
+        $this->response($respuesta);
+    }
 
 }

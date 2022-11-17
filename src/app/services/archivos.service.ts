@@ -6,6 +6,7 @@ import { GetData } from '../models/getData.model';
 import { Registro } from '../models/registro.model';
 
 import { map, take } from 'rxjs/operators';
+import { EditarData } from '../models/editarData.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,8 +53,8 @@ export class ArchivosService {
   //     .pipe(map((resp: AgregarData) => resp));
   // }
 
-   getTicket(idregistro: any) {
-     const url = URL_WS + `/Archivos/registroimg/${idregistro}`;
+   getObras() {
+     const url = URL_WS + `/Archivos/getobras/`;
      return this.http.get(url).pipe(map((resp: any) => {
        return resp;
      }));
@@ -73,6 +74,43 @@ export class ArchivosService {
        return resp;
      }));
    }
+  editarObra(form: FormData) {
+    const url = URL_WS + '/Archivos/editarobra';
+    return this.http.put<EditarData>(url, form)
+      .pipe(map((resp: EditarData) => resp));
+  }
+  agregarAdquisicion(forma: any, documentos: any[]) {
+    const url = URL_WS + "/Archivos/agregar_ad";
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(forma));
+    let x = 1;
+    for (const doc of documentos) {
+      const name = `documento_${x}`;
+      formData.append(name, doc.archivo);
+      x++;
+    }
+    return this.http.post(url, formData).pipe(map((resp: any) => {
+      return resp;
+    }));
+  }
+  editarAdquisicion(form: FormData) {
+    const url = URL_WS + '/Archivos/editarad';
+    return this.http.put<EditarData>(url, form)
+      .pipe(map((resp: EditarData) => resp));
+  }
+  getAdquisicion() {
+    const url = URL_WS + `/Archivos/getadquisicion/`;
+    return this.http.get(url).pipe(map((resp: any) => {
+      return resp;
+    }));
+  }
+
+  eliminarAdquisicion(data: any) {
+    const url = URL_WS + "/Archivos/eliminar_ad";
+    return this.http.post(url, data).pipe(map((resp: any) => {
+      return resp;
+    }));
+  }
 
 
    eliminarDocumento(data: any) {

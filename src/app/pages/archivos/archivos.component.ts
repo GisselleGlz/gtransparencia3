@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Archivo } from "../../models/archivo.model";
 import { ArchivosService } from '../../services/archivos.service';
-
+import { RUTA_IMG } from 'src/environments/environment';
 @Component({
   selector: 'app-archivos',
   templateUrl: './archivos.component.html',
@@ -19,6 +19,7 @@ export class ArchivosComponent implements OnInit {
 
   mostrarDepartamentoModulo: boolean = false;
   forma: FormGroup;
+  formaAdquisiciones: FormGroup;
 
   playLoad: any;
   textButton: string = 'Agregar';
@@ -31,12 +32,20 @@ export class ArchivosComponent implements OnInit {
 
 
   documentos: any = [];
+  documentos_adquisiciones: any = [];
   ruta: any;
   errMsj = null;
   Nombre = '';
-  NombreArchivo:any;
+  NombreArchivo1:any;
+  NombreArchivo2: any;
   tabDefault = 0;
+  url: any;
+  iddocumento: number = 0;
+btn2=0;
+
+  btn1 = 0;
   constructor(private archivosService: ArchivosService, private fb: FormBuilder) {
+    this.url = RUTA_IMG; 
     this.buildForm();
     this.cargarDatos();
    }
@@ -46,23 +55,38 @@ export class ArchivosComponent implements OnInit {
 
   buildForm() {
     this.forma = this.fb.group({
-    //  idregistro: this.idregistro,
-      // activo: [1],
       nombre: [''],
+      numero: [''],
+    },
+      {
+        updateOn: 'change'
+      });
+
+
+    this.formaAdquisiciones = this.fb.group({
+      nombre: [''],
+      numero: [''],
     },
       {
         updateOn: 'change'
       });
   }
 
-  agregarImg(fileList: FileList) {
+  agregarImg(fileList: FileList, tipo:any) {
+    console.log('tipo:', tipo);
     const files = Array.from(fileList);
     console.log('files-', files[0].name);
-    this.forma.value.nombre = files[0].name;
-    this.NombreArchivo = files[0].name;
-    this.forma.patchValue({
-      nombre: files[0].name,
-    })
+    // this.forma.value.nombre = files[0].name;
+     
+     if(tipo==1){
+       this.NombreArchivo1 = files[0].name;
+     }
+    if (tipo == 2) {
+      this.NombreArchivo2 = files[0].name;
+    }
+    // this.forma.patchValue({
+    //   nombre: files[0].name,
+    // })
 
     let invalido = false;
     let vacio = false;
@@ -117,15 +141,23 @@ export class ArchivosComponent implements OnInit {
 
 
   cargarDatos() {
-    this.archivosService.getTicket(this.idregistro).subscribe(
+    this.archivosService.getObras().subscribe(
       data => {
        this.formaDatos = data.registro;
         this.documentos = data.documentos;
-        this.Nombre = this.formaDatos.nombre
-        console.log('doc-', this.formaDatos);
-        console.log('Nombre-', this.Nombre);
-      //  this.forma.patchValue(data.registro);
-        //this.cambioDireccion();
+        console.log('doc-', this.documentos);
+      },
+      err => {
+        this.errMsj = err.error.mensaje;
+      }
+    );
+
+
+    this.archivosService.getAdquisicion().subscribe(
+      data => {
+        this.documentos_adquisiciones = data.documentos;
+        console.log('documentos_adquisiciones-', this.documentos_adquisiciones);
+
       },
       err => {
         this.errMsj = err.error.mensaje;
@@ -153,7 +185,7 @@ export class ArchivosComponent implements OnInit {
 
   agregarRegistro() {
     this.documentos.push(this.archivo);
-console.log('documentos;:', this.documentos);
+ console.log('documentos;:', this.documentos);
     console.log('archivo;:', this.archivo);
     this.archivosService.agregarRegistro( this.forma.value, this.documentos)
         .subscribe(resp => {
@@ -161,7 +193,7 @@ console.log('documentos;:', this.documentos);
             title: 'Éxito',
             icon: 'success',
             toast: true,
-            text: 'Registro editado',
+            text: 'Archivo agregado',
             position: 'top',
             showConfirmButton: false,
             timer: 1500
@@ -180,6 +212,107 @@ console.log('documentos;:', this.documentos);
         })
    
       }
+
+  editar1(iddoc: number) {
+    this.btn1 = 1;
+    this.iddocumento = iddoc;
+    console.log('iddoc:', this.iddocumento);
+  }
+
+      editar2(iddoc:number){
+       this.btn2=1;
+       this.iddocumento = iddoc;
+       console.log('iddoc:', this.iddocumento);
+      }
+
+
+  editarObra(id: number) {
+    console.log('id', id);
+    this.iddocumento = id;
+    const values: FormData = { iddocumento: this.iddocumento, ...this.forma.value }
+    this.archivosService.editarObra(values).subscribe(resp => {
+      this
+      Swal.fire({
+        title: 'Exito',
+        text: 'Se edito  correctamente',
+        icon: 'success',
+        toast: true,
+        showConfirmButton: false,
+        timer: 1500,
+        position: 'top',
+      })
+        .then(resp => {
+          window.location.reload()
+        });
+    },
+      err => {
+        Swal.fire({
+          title: 'Error',
+          icon: 'error'
+        });
+
+      }
+    )
+  }
+
+  editarAdquisicion(id: number) {
+    console.log('id', id);
+    this.iddocumento = id;
+    const values: FormData = { iddocumento: this.iddocumento, ...this.formaAdquisiciones.value }
+    this.archivosService.editarAdquisicion(values).subscribe(resp => {
+      this
+      Swal.fire({
+        title: 'Exito',
+        text: 'Se edito  correctamente',
+        icon: 'success',
+        toast: true,
+        showConfirmButton: false,
+        timer: 1500,
+        position: 'top',
+      })
+        .then(resp => {
+          window.location.reload()
+        });
+    },
+      err => {
+        Swal.fire({
+          title: 'Error',
+          icon: 'error'
+        });
+
+      }
+    )
+  }
+
+  agregarAdquisicion() {
+    this.documentos.push(this.archivo);
+    console.log('documentos;:', this.documentos);
+    console.log('archivo;:', this.archivo);
+    this.archivosService.agregarAdquisicion(this.formaAdquisiciones.value, this.documentos)
+      .subscribe(resp => {
+        Swal.fire({
+          title: 'Éxito',
+          icon: 'success',
+          toast: true,
+          text: 'Archivo Agregado',
+          position: 'top',
+          showConfirmButton: false,
+          timer: 1500
+        })
+          .then(resp => {
+            console.log('registro agregado');
+            location.reload();
+            // this.router.navigateByUrl('/atencion');
+          });
+      }, err => {
+        Swal.fire({
+          title: 'Error',
+          text: err.error.mensaje,
+          icon: 'error'
+        });
+      })
+
+  }
 
 
   eliminarDocumento(index, imagen) {
@@ -224,4 +357,51 @@ console.log('documentos;:', this.documentos);
     }
   }
 
+
+
+  eliminarAdquisicion(index, imagen) {
+    const imgTemp = imagen;
+
+    if (imgTemp.guardado == 1) {
+      Swal.fire({
+        title: "Aviso",
+        text: "Confirmar eliminar el archivo",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "SI",
+        cancelButtonText: "NO",
+        showLoaderOnConfirm: true,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.archivosService
+            .eliminarAdquisicion({ iddocumento: imgTemp.iddocumento })
+            .subscribe(
+              data => {
+                this.documentos_adquisiciones.splice(index, 1);
+                Swal.fire({
+                  title: 'Éxito',
+                  icon: 'success',
+                  toast: true,
+                  text: 'Archivo eliminado',
+                  position: 'top',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                location.reload();
+              },
+              err => {
+                this.errMsj = err.error.mensaje;
+              }
+            );
+        }
+      });
+    } else {
+      this.documentos_adquisiciones.splice(index, 1);
+    }
+  }
+
 }
+
+
+

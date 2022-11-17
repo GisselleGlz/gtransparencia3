@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 //import { PrimerRegistroComponent } from './primer-registro/primer-registro.component';
 import { ArchivosComponent } from './archivos.component';
+import { OrdenesDiaComponent } from './ordenes-dia/ordenes-dia.component';
 
 export const ArchivosRoutes: Routes = [
     {
@@ -10,17 +11,17 @@ export const ArchivosRoutes: Routes = [
             title: 'Archivos Transparencia',
         },
     },
-    //  {
-    //      path: 'primer-registro',
-    //      component: PrimerRegistroComponent,
-    //      data: {
-    //          title: 'Primer Registro',
-    //          urls: [
-    //              { title: 'Registro', url: '/primer-registro' },
-    //              { title: 'Registro' }
-    //          ]
-    //      },
-    //  },
+      {
+          path: 'ordenes-dia',
+          component: OrdenesDiaComponent,
+          data: {
+              title: 'Ordenes del día',
+              urls: [
+                  { title: 'Ordenes del día', url: '/ordenes-dia' },
+                  { title: 'Ordenes del día' }
+              ]
+          },
+      },
 
    
    

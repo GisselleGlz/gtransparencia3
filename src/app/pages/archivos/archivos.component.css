@@ -3,3 +3,19 @@ mat-form-field {
     padding: 1px;
     /* font-size: medium; */
 }
+
+.but2 {
+    background-color: #9E2342;
+    color: #ffffff;
+    font-size: larger;
+    font-weight: bold;
+    font-family: 'Arial';
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.but2:disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}
