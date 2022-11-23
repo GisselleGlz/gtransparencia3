@@ -132,4 +132,32 @@ class Archivos extends REST_Controller
         $this->response($respuesta);
     }
 
+    public function agregar_orden_post()
+    {
+        $this->load->model('archivos_model');
+        $data = (array) json_decode($this->post('data'));
+        $respuesta = $this->archivos_model->agregarOrden($data, $this->post());
+        $this->response($respuesta, $respuesta['status']);
+    }
+    public function getorden_get()
+    {
+        $this->load->model('archivos_model');
+        $respuesta = $this->archivos_model->getOrden($this->get());
+        $this->response($respuesta, $respuesta['status']);
+    }
+
+    public function eliminar_orden_post()
+    {
+        $this->load->model('archivos_model');
+        $respuesta = $this->archivos_model->eliminar_orden($this->post());
+        $this->response($respuesta);
+    }
+
+    public function editarorden_put()
+    {
+        $this->load->model('archivos_model');
+        $respuesta = $this->archivos_model->editarOrden($this->put());
+        $status = $respuesta['status'];
+        $this->response($respuesta, $status);
+    }
 }

@@ -1,10 +1,12 @@
 <div class="card row p-2">
     <div class="col-lg-12">
         <h1 class="text-center"> OBLIGACIONES DE TRANSPARENCIA</h1>
+        <div class="col-lg-12 border-bottom">
+            <button class="but2 border" [routerLink]="['/archivos/']"> CONVOCATORIAS PÚBLICAS</button>
+            <button class="but1 border" [routerLink]="['/archivos/ordenes-dia']">ORDEN DEL DÍA</button>
+        </div>
 
-        <button class="but2 border" [routerLink]="['/archivos/']"> Convocatorias Públicas</button>
-        <button class="but2 border" [routerLink]="['/archivos/ordenes-dia']">Orden del día</button>
-        <hr>
+        <br>
         <div class="border p-3" style="border-radius: 10px;">
 
             <h2 class="text-center"> ADQUISICIONES</h2>
@@ -28,16 +30,16 @@
                     <div class="col-lg-5">
                         <mat-form-field appearance="outline">
                             <mat-label>Nombre </mat-label>
-                            <input matInput maxlength="200" formControlName="nombre" />
+                            <input matInput maxlength="200" formControlName="nombre" required/>
                         </mat-form-field>
-                        <label class="border p-2" style="border-radius: 7px;" *ngIf="NombreArchivo1"><i class="fa fa-2x fa-file"></i> {{NombreArchivo1}}</label>
+                        <label class="border p-2" style="border-radius: 7px;" *ngIf="NombreArchivo1"><i class="fa fa-2x fa-file-pdf"></i> {{NombreArchivo1}}</label>
                     </div>
                     <div class="col-lg-3">
                         <mat-form-field appearance="outline">
                             <mat-label>Número</mat-label>
-                            <input matInput type="number" formControlName="numero" />
+                            <input matInput type="number" formControlName="numero" required/>
                         </mat-form-field>
-                        <button mat-raised-button color="accent" (click)="agregarAdquisicion()">Guardar</button>
+                        <button mat-raised-button color="accent" [disabled]="!formaAdquisiciones.valid" (click)="agregarAdquisicion()">Guardar</button>
                     </div>
 
                 </div>
@@ -122,7 +124,7 @@
                     <div class="col-lg-5">
                         <mat-form-field appearance="outline">
                             <mat-label>Nombre </mat-label>
-                            <input matInput maxlength="200" formControlName="nombre" />
+                            <input matInput maxlength="200" formControlName="nombre" required/>
                         </mat-form-field>
                         <label class="border p-2" style="border-radius: 7px;" *ngIf="NombreArchivo2"><i class="fa fa-2x fa-file"></i> {{NombreArchivo2}}</label>
 
@@ -130,9 +132,9 @@
                     <div class="col-lg-3">
                         <mat-form-field appearance="outline">
                             <mat-label>Número</mat-label>
-                            <input matInput type="number" formControlName="numero" />
+                            <input matInput type="number" formControlName="numero" required/>
                         </mat-form-field>
-                        <button mat-raised-button color="accent" (click)="agregarRegistro()">Guardar</button>
+                        <button mat-raised-button color="accent" [disabled]="!forma.valid" (click)="agregarRegistro()">Guardar</button>
                     </div>
 
                 </div>

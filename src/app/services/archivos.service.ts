@@ -120,6 +120,42 @@ export class ArchivosService {
      }));
    }
 
+  agregarOrden(forma: any, documentos: any[]) {
+    const url = URL_WS + "/Archivos/agregar_orden";
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(forma));
+    let x = 1;
+    for (const doc of documentos) {
+      const name = `documento_${x}`;
+      formData.append(name, doc.archivo);
+      x++;
+    }
+    return this.http.post(url, formData).pipe(map((resp: any) => {
+      return resp;
+    }));
+  }
+
+  getOrden() {
+    const url = URL_WS + `/Archivos/getorden/`;
+    return this.http.get(url).pipe(map((resp: any) => {
+      return resp;
+    }));
+  }
+
+  editarOrden(form: FormData) {
+    const url = URL_WS + '/Archivos/editarorden';
+    return this.http.put<EditarData>(url, form)
+      .pipe(map((resp: EditarData) => resp));
+  }
+
+  eliminarOrden(data: any) {
+    const url = URL_WS + "/Archivos/eliminar_orden";
+    return this.http.post(url, data).pipe(map((resp: any) => {
+      return resp;
+    }));
+  }
+
+
   paginado(limit: number, page: number, filtros, order) {
     const url = URL_WS + "/Archivos/registrospag";
     return this.http.post(url, { limit, offset: (page - 1) * limit, filtros, order }).pipe(

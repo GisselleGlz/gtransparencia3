@@ -10,7 +10,17 @@ mat-form-field {
     font-size: larger;
     font-weight: bold;
     font-family: 'Arial';
-    border-radius: 5px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.but1 {
+    background-color: #d4d4d4;
+    color: #8d8c8c;
+    font-size: larger;
+    font-weight: bold;
+    font-family: 'Arial';
+    border-radius: 10px;
     padding: 20px;
 }
 

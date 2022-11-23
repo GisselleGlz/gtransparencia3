@@ -67,6 +67,7 @@ import { RegistroComponent } from './authentication/registro/registro.component'
 import { MatButtonModule } from '@angular/material/button';
 import { ProyectosEspecialesComponent } from './pages/proyectos-especiales/proyectos-especiales.component';
 import { ArchivosComponent } from './pages/archivos/archivos.component';
+import { OrdenesDiaComponent } from './pages/archivos/ordenes-dia/ordenes-dia.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -89,6 +90,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     InicioComponent,
     RegistroComponent,
     ArchivosComponent,
+    OrdenesDiaComponent
 
     
 

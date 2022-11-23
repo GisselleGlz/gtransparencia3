@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormControlName, FormBuilder } from '@angular/forms';
+import {  FormGroup,  FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Archivo } from "../../models/archivo.model";

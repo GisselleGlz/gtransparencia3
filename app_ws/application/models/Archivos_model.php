@@ -245,8 +245,8 @@ class archivos_model extends CI_Model
         $query = $this->db->select('ruta')->from('documentos')->where('iddocumento', $iddocumento)->limit(1)->get();
         $ruta = $query->row('ruta');
 
-        if (file_exists("./assets/{$ruta}")) {
-            unlink("./assets/{$ruta}");
+        if (unlink("./assets/{$ruta}")) {
+            //se elimino el archivo
         }
         $this->db->trans_begin();
 
@@ -401,12 +401,173 @@ class archivos_model extends CI_Model
         $query = $this->db->select('ruta')->from('adquisiciones')->where('iddocumento', $iddocumento)->limit(1)->get();
         $ruta = $query->row('ruta');
 
-        if (file_exists("./assets/{$ruta}")) {
-            unlink("./assets/{$ruta}");
+        if (unlink("./assets/{$ruta}")) {
+            //se elimino el archivo
         }
         $this->db->trans_begin();
 
         $delete = $this->db->delete('adquisiciones', array('iddocumento' => $iddocumento));
+
+        if ($this->db->trans_status() === false) {
+
+            $this->db->trans_rollback();
+            $respuesta = array(
+                'mensaje' => 'Error en eliminación del documento.',
+                'status' => 409,
+            );
+        } else {
+            $this->db->trans_commit();
+            $respuesta = array(
+                'mensaje' => 'Documento eliminado correctamente.',
+                'status' => 200,
+            );
+        }
+
+        return $respuesta;
+    }
+
+
+
+    public function agregarOrden($datos)
+    {
+        $sesion =    $datos['sesion'];
+        $fecha =    $datos['fecha'];
+        $numero =    $datos['numero'];
+        //  $this->db->insert('primer_registro', $data);
+        $iddocumento = $this->db->insert_id();
+
+        if (count($_FILES) > 0) {
+            if (!is_dir('./assets/ordenes/' . $numero . '/')) {
+                mkdir('./assets/ordenes/' . $numero . '/', 0777, true);
+            }
+
+            $config['upload_path'] = './assets/ordenes/' . $numero . '/';
+            $config['encrypt_name'] = true;
+            $config['allowed_types'] = 'png|jpg|jpeg|pdf';
+            $config['max_size'] = '10000 KB';
+
+            foreach ($_FILES as $name => $doc) {
+
+                $this->load->library("upload", $config);
+                if ($this->upload->do_upload($name)) {
+                    $data = array("upload_data" => $this->upload->data());
+                    $ruta = "ordenes/" . $numero . '/' . $this->upload->data('file_name');
+                    $data_documento = array(
+                        'iddocumento' => $iddocumento,
+                        'sesion' => $sesion,
+                        'fecha' => $fecha,
+                        'numero' => $numero,
+                        'ruta' => $ruta,
+                    );
+                    $this->db->insert('ordenes', $data_documento);
+                }
+            }
+        }
+
+
+
+        if (
+            $this->db->trans_status() === false
+        ) {
+            $this->db->trans_rollback();
+            $respuesta = array(
+                'mensaje' => 'Error en inserción.',
+                'error' => $this->db->error(),
+                'status' => 409,
+            );
+        } else {
+            $this->db->trans_commit();
+            $respuesta = array(
+                'mensaje' => 'Inserción correcta',
+                'status' => 200,
+            );
+        }
+        return $respuesta;
+    }
+
+
+    public function getOrden()
+    {
+        $whereDocumentos = array('numero >= 0');
+        $docs = $this->db->order_by('numero', 'DESC')->get_where('ordenes', $whereDocumentos)->result();
+        foreach ($docs as $doc) {
+            $doc->ruta = RUTA_IMG . $doc->ruta;
+            $doc->guardado = 1;
+            $pdf = substr($doc->ruta, -3);
+            if ($pdf == 'pdf') {
+                $doc->type = 'application/pdf';
+            } else {
+                $doc->type = substr($doc->ruta, -3);
+            }
+        }
+        if ($this->db->trans_status() === false) {
+
+            $this->db->trans_rollback();
+            $respuesta = array(
+                'mensaje' => 'Registros cargado correctamente',
+                'documentos' => $docs,
+                'status' => 200,
+            );
+        } else {
+            $this->db->trans_commit();
+            $respuesta = array(
+                'mensaje' => 'Registros:::',
+                'documentos' => $docs,
+                'status' => 200,
+            );
+        }
+
+        return $respuesta;
+    }
+
+
+    public function editarOrden($datos)
+    {
+        $iddocumento = $datos['iddocumento'];
+        $data = array(
+            'sesion' => $datos['sesion'],
+            'fecha' => $datos['fecha'],
+            'numero' => $datos['numero'],
+        );
+
+        if ($iddocumento > 0) {
+            $this->db->set($data)->where('iddocumento', $iddocumento)->update('ordenes');
+        }
+        // else {
+        //     $this->db->insert('roles_responsables', $data);
+        // }
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+            $respuesta = array(
+                'mensaje' => 'Error',
+                'error' => $this->db->error(),
+                'status' => 409,
+            );
+        } else {
+            $this->db->trans_commit();
+            $respuesta = array(
+                'mensaje' => 'Operación correcta',
+                'iddoc' => $iddocumento,
+                'status' => 201
+            );
+        }
+        return $respuesta;
+    }
+
+
+    public function eliminar_orden($datos)
+    {
+
+        $iddocumento = $datos['iddocumento'];
+        $query = $this->db->select('ruta')->from('ordenes')->where('iddocumento', $iddocumento)->limit(1)->get();
+        $ruta = $query->row('ruta');
+
+        if (unlink("./assets/{$ruta}")) {
+            //se elimino el archivo
+        }
+        $this->db->trans_begin();
+
+        $delete = $this->db->delete('ordenes', array('iddocumento' => $iddocumento));
 
         if ($this->db->trans_status() === false) {
 
