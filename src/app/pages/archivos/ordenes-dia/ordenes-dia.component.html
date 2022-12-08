@@ -14,16 +14,19 @@
                 <div class="row">
 
                     <div class="col-lg-3">
-                        <div class="file-upload-wrapper border p-2">
+                        <div class="file-upload-wrapper p-1">
                             <div class="file-box file-box-body view file-upload">
                                 <div class="file-box-text file-upload-message">
-                                    <p>Subir archivo</p>
-                                    <img src="/assets/images/nube.png" alt="logo" style="width: 80px;" />
-                                    <input type="file" (change)="agregarFile($event.target.files,1)" name="file-1[]" id="file-1" class="inputfile inputfile-1 file_upload" accept="image/png, image/jpeg,  application/pdf" multiple />
+                                    <label> Subir archivo</label> &nbsp;
+                                    <img src="/assets/images/upload.png" alt="logo" style="width: 30px;" />
+                                    <input type="file" (change)="agregarFile($event.target.files,1)" name="file-1[]" id="file-1" class="inputfile inputfile-1 file_upload" accept="image/png, image/jpeg,  application/pdf" multiple formControlName="archivo" required/>
                                 </div>
                             </div>
 
                         </div>
+                        <label class="p-1" *ngIf="!this.formaOrden.value.archivo" style="color: red; font-size:small;"><i
+                                class="fa fa-exclamation-triangle"></i>
+                            Seleccione un archivo</label>
                     </div>
 
                     <div class="col-lg-4">
@@ -45,7 +48,7 @@
                             <mat-label>Número</mat-label>
                             <input matInput type="number" formControlName="numero" required />
                         </mat-form-field>
-                        <button mat-raised-button color="accent" [disabled]="!formaOrden.valid" (click)="agregarOrden()">Guardar</button>
+                        <button mat-raised-button color="accent" [disabled]="!formaOrden.valid" (click)="agregarOrden()"> <i class="fa fa-save"></i> Guardar</button>
                     </div>
 
                 </div>
@@ -58,16 +61,16 @@
                             <tr>
                                 <th>Número</th>
                                 <th>Archivo</th>
-                                <th>Sesion</th>
+                                <th>Sesión</th>
                                 <th>Fecha</th>
                                 <th style="width: 10%;">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let orden of documentos_orden; let i = index">
+                            <tr *ngFor="let orden of documentos_orden | paginate: { itemsPerPage: 5, currentPage: p }">
                                 <td class="align-middle text-center"> {{orden.numero}}
                                     <ng-container *ngIf="btn1==1 && iddocumento ==orden.iddocumento">
-                                        <input class="form-control" type="number" placeholder="Número" formControlName="numero">
+                                        <input class="form-control" type="number" [(ngModel)]="orden.numero" placeholder="Número" formControlName="numero">
                                     </ng-container>
                                 </td>
                                 <td class="align-middle text-center">
@@ -75,12 +78,13 @@
                                 </td>
                                 <td> {{orden.sesion}}
                                     <ng-container *ngIf="btn1==1 && iddocumento ==orden.iddocumento">
-                                        <input class="form-control" type="text" placeholder="Sesion" formControlName="sesion">
+
+                                        <input class="form-control" type="text" [(ngModel)]="orden.sesion" placeholder="Sesión" formControlName="sesion">
                                     </ng-container>
                                 </td>
                                 <td> {{orden.fecha}}
                                     <ng-container *ngIf="btn1==1 && iddocumento ==orden.iddocumento">
-                                        <input class="form-control" type="text" placeholder="Fecha" formControlName="fecha">
+                                        <input class="form-control" type="text" [(ngModel)]="orden.fecha" placeholder="Fecha" formControlName="fecha">
                                     </ng-container>
                                 </td>
                                 <td class="align-middle text-center">
@@ -88,8 +92,7 @@
                                         <div class="col-lg-6">
                                             <a *ngIf="btn1==0" class="btn-warning p-2" style="border-radius: 8px;" ngbTooltip="Editar Archivo" (click)="editar1(orden.iddocumento)">
                                                 <i class="fa fa-edit"></i> </a>
-                                            <a class="btn-primary p-2" style="border-radius: 8px;" *ngIf="btn1==1 && iddocumento ==orden.iddocumento" (click)="editarOrden(orden.iddocumento)"><i
-                                                    class="fa fa-save"></i></a>
+                                            <a class="btn-primary p-2" style="border-radius: 8px;" *ngIf="btn1==1 && iddocumento ==orden.iddocumento" (click)="editarOrden(orden.iddocumento)"><i class="fa fa-save"></i></a>
                                         </div>
                                         <div class="col-lg-6">
                                             <a class="btn-danger p-2" style="border-radius: 8px;" ngbTooltip="Eliminar Archivo" (click)="eliminarOrden(i, orden)">
@@ -100,6 +103,14 @@
 
                                 </td>
 
+                            </tr>
+                            <tr class="border">
+                                <td colspan="5">
+                                    <div class="text-center">
+                                        <pagination-controls class="custom-pagination" nextLabel="" previousLabel="" (pageChange)="p = $event">
+                                        </pagination-controls>
+                                    </div>
+                                </td>
                             </tr>
                             <tr *ngIf="documentos_orden?.length <= 0">
                                 <td colspan="4" class="text-center font-weight-bold">NO HAY DOCUMENTOS AGREGADOS

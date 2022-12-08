@@ -42,7 +42,7 @@ export class ArchivosComponent implements OnInit {
   url: any;
   iddocumento: number = 0;
 btn2=0;
-
+  p: number = 1;
   btn1 = 0;
   constructor(private archivosService: ArchivosService, private fb: FormBuilder) {
     this.url = RUTA_IMG; 
@@ -57,6 +57,7 @@ btn2=0;
     this.forma = this.fb.group({
       nombre: [''],
       numero: [''],
+      archivo: [''],
     },
       {
         updateOn: 'change'
@@ -66,6 +67,7 @@ btn2=0;
     this.formaAdquisiciones = this.fb.group({
       nombre: [''],
       numero: [''],
+      archivo: [''],
     },
       {
         updateOn: 'change'

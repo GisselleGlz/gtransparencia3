@@ -42,7 +42,7 @@ export class OrdenesDiaComponent implements OnInit {
   url: any;
   iddocumento: number = 0;
   btn2 = 0;
-
+  p: number = 1;
   btn1 = 0;
   constructor(private archivosService: ArchivosService, private fb: FormBuilder) {
     this.url = RUTA_IMG;
@@ -57,6 +57,7 @@ export class OrdenesDiaComponent implements OnInit {
       sesion: [''],
       fecha: [''],
       numero: [''],
+      archivo: [''],
     },
       {
         updateOn: 'change'
@@ -69,7 +70,9 @@ export class OrdenesDiaComponent implements OnInit {
       data => {
         this.documentos_orden = data.documentos;
         console.log('documentos_orden-', this.documentos_orden);
-
+        this.formaOrden.patchValue({
+          sesion: this.formaOrden.value.sesion,
+        })
       },
       err => {
         this.errMsj = err.error.mensaje;

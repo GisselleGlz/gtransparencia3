@@ -29,3 +29,8 @@ mat-form-field {
     background-color: #cccccc;
     color: #666666;
 }
+
+.custom-pagination ::ng-deep .ngx-pagination .current {
+    background: #7E1F45;
+    border-radius: 8px;
+}

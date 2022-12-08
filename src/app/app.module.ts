@@ -68,7 +68,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ProyectosEspecialesComponent } from './pages/proyectos-especiales/proyectos-especiales.component';
 import { ArchivosComponent } from './pages/archivos/archivos.component';
 import { OrdenesDiaComponent } from './pages/archivos/ordenes-dia/ordenes-dia.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -134,7 +134,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DateTimePickerAllModule,
     NumericTextBoxAllModule,
     ScheduleAllModule,
-    RecurrenceEditorAllModule
+    RecurrenceEditorAllModule,
+    NgxPaginationModule,
 
 
   ],
