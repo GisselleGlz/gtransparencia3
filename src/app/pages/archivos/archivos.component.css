@@ -7,11 +7,11 @@ mat-form-field {
 .but2 {
     background-color: #9E2342;
     color: #ffffff;
-    font-size: larger;
+    font-size: x-large;
     font-weight: bold;
     font-family: 'Arial';
-    border-radius: 10px;
-    padding: 20px;
+    padding: 23px;
+    border-radius: 5px;
 }
 
 .but1 {
@@ -20,8 +20,8 @@ mat-form-field {
     font-size: larger;
     font-weight: bold;
     font-family: 'Arial';
-    border-radius: 10px;
     padding: 20px;
+    border-radius: 5px;
 }
 
 .but2:disabled {

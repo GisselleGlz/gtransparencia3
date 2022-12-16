@@ -10,6 +10,7 @@ import { NotfoundComponent } from './authentication/404/not-found.component';
 import { InicioComponent } from './pages/inicio/inicio.component';
 import { AuthGuard } from './services/guards/auth-guard.service';
 import { RegistroComponent } from './authentication/registro/registro.component';
+import { LeyDisciplinaModule } from './pages/ley-disciplina/ley-disciplina.module';
 
 export const Approutes: Routes = [
   {
@@ -42,14 +43,20 @@ export const Approutes: Routes = [
           ),
       },
       
-     
-      
       {
         path: 'archivos',
         canActivate: [AuthGuard],
         loadChildren: () =>
           import('./pages/archivos/archivos.module').then(
             (m) => m.ArchivosModule
+          ),
+      },
+      {
+        path: 'disciplina',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./pages/ley-disciplina/ley-disciplina.module').then(
+            (m) => m.LeyDisciplinaModule
           ),
       },
       

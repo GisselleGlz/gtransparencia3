@@ -69,6 +69,8 @@ import { ProyectosEspecialesComponent } from './pages/proyectos-especiales/proye
 import { ArchivosComponent } from './pages/archivos/archivos.component';
 import { OrdenesDiaComponent } from './pages/archivos/ordenes-dia/ordenes-dia.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { LeyDisciplinaComponent } from './pages/ley-disciplina/ley-disciplina.component';
+import { FinancieraLaredoComponent } from './pages/ley-disciplina/financiera-laredo/financiera-laredo.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -90,7 +92,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     InicioComponent,
     RegistroComponent,
     ArchivosComponent,
-    OrdenesDiaComponent
+    OrdenesDiaComponent,
+    LeyDisciplinaComponent,
+    FinancieraLaredoComponent
 
     
 
@@ -127,8 +131,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     UploaderAllModule,
     ToolbarAllModule,
     ContextMenuAllModule,
-    // ButtonAllModule,
-    // CheckBoxAllModule,
     DatePickerAllModule,
     TimePickerAllModule,
     DateTimePickerAllModule,
