@@ -71,6 +71,7 @@ import { OrdenesDiaComponent } from './pages/archivos/ordenes-dia/ordenes-dia.co
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LeyDisciplinaComponent } from './pages/ley-disciplina/ley-disciplina.component';
 import { FinancieraLaredoComponent } from './pages/ley-disciplina/financiera-laredo/financiera-laredo.component';
+import { LeyGeneralComponent } from './pages/ley-general/ley-general.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -94,7 +95,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ArchivosComponent,
     OrdenesDiaComponent,
     LeyDisciplinaComponent,
-    FinancieraLaredoComponent
+    FinancieraLaredoComponent,
+    LeyGeneralComponent
 
     
 

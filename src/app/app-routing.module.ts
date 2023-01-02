@@ -11,6 +11,7 @@ import { InicioComponent } from './pages/inicio/inicio.component';
 import { AuthGuard } from './services/guards/auth-guard.service';
 import { RegistroComponent } from './authentication/registro/registro.component';
 import { LeyDisciplinaModule } from './pages/ley-disciplina/ley-disciplina.module';
+import { LeyGeneralModule } from './pages/ley-general/ley-general.module';
 
 export const Approutes: Routes = [
   {
@@ -57,6 +58,14 @@ export const Approutes: Routes = [
         loadChildren: () =>
           import('./pages/ley-disciplina/ley-disciplina.module').then(
             (m) => m.LeyDisciplinaModule
+          ),
+      },
+      {
+        path: 'general',
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import('./pages/ley-general/ley-general.module').then(
+            (m) => m.LeyGeneralModule
           ),
       },
       

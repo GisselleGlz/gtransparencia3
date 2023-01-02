@@ -323,8 +323,9 @@ btn2=0;
     if (imgTemp.guardado == 1) {
       Swal.fire({
         title: "Aviso",
-        text: "Confirmar eliminar el archivo",
+        text: "¿Eliminar el archivo?",
         icon: "warning",
+        toast: true,
         showCancelButton: true,
         confirmButtonText: "SI",
         cancelButtonText: "NO",
@@ -367,8 +368,9 @@ btn2=0;
     if (imgTemp.guardado == 1) {
       Swal.fire({
         title: "Aviso",
-        text: "Confirmar eliminar el archivo",
+        text: "¿Eliminar el archivo?",
         icon: "warning",
+        toast: true,
         showCancelButton: true,
         confirmButtonText: "SI",
         cancelButtonText: "NO",
